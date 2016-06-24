@@ -1,8 +1,8 @@
-package kz.alisher.example.wicket;
+package kz.alisher.example.wicket.projects.registration;
 
-import kz.alisher.example.wicket.Dao.UserDao;
+import kz.alisher.example.wicket.dao.UserDao;
 import kz.alisher.example.wicket.model.User;
-import org.apache.wicket.markup.html.WebPage;
+import kz.alisher.example.wicket.projects.BasePage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
@@ -12,12 +12,12 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 /**
  * Created by Alisher on 04.06.2016.
  */
-public class RegistrationPage extends WebPage {
-    Form<?> form = null;
-    User user = new User();
+public class RegistrationPage extends BasePage {
+    private Form<?> form = null;
+    private User user = new User();
 
     @SpringBean
-    UserDao dao;
+    private UserDao dao;
 
     public RegistrationPage(final PageParameters parameters) {
         super();
@@ -40,7 +40,6 @@ public class RegistrationPage extends WebPage {
                     e.printStackTrace();
                 }
             }
-
         };
         form.add(name);
         form.add(emailId);

@@ -1,22 +1,18 @@
-package kz.alisher.example.wicket.Dao;
+package kz.alisher.example.wicket.dao;
 
 import kz.alisher.example.wicket.model.User;
-import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Alisher on 04.06.2016.
  */
-public class UserDao {
+public interface UserDao {
+    List<User> findAll();
 
-    @Resource
-    SessionFactory sessionFactory;
+    void save(User user);
 
-    @Transactional
-    public void save(User user) {
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
-    }
+    void delete(User user);
 
+    User findById(Long id);
 }

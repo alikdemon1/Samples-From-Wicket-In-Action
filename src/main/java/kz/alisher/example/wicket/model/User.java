@@ -1,6 +1,7 @@
 package kz.alisher.example.wicket.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,11 +9,14 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "users")
-public class User {
+@NamedQueries({
+        @NamedQuery(name = "User.findById",
+                query = "select distinct u from User u where u.id = :id")})
+public class User implements Serializable{
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private long id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "email")
@@ -33,11 +37,11 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
