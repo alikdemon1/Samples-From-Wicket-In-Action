@@ -9,7 +9,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
  */
 class Acknowledgement extends BasePage {
 
-    Acknowledgement(final PageParameters page) throws Exception {
+    public Acknowledgement(PageParameters page) {
 
         Label name = new Label("name", page.get("name"));
         Label email = new Label("email", page.get("email"));

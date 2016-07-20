@@ -1,0 +1,18 @@
+<html xmlns:wicket="http://www.w3.org/1999/xhtml">
+<body>
+The requested page is only available for authenticated users.
+
+<form wicket:id="signInForm">
+    &nbsp;&nbsp;username
+    <input type="text" wicket:id="wiaUsername"/>
+    password
+    <input type="password" wicket:id="wiaPassword"/>
+    <input type="submit" value="sign in"/>
+</form>
+<span wicket:id="feedback"/>
+
+<p>
+    <i>Hint: try user/user or admin/admin</i>
+</p>
+</body>
+</html>

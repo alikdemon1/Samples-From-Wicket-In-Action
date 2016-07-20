@@ -41,6 +41,6 @@ public class Checkout extends BasePage {
                 setResponsePage(Index.class);
             }
         });
-        add(new ShoppingCartPanel("cart", getCart()));
+        add(new ShoppingCartPanel("cart", getCart(), false));
     }
 }

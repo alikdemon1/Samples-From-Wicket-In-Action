@@ -28,11 +28,9 @@ public class Start extends BasePage {
             }
         });
 
-        add(new Link("clear_session"){
+        add(new Link("clear_session") {
             public void onClick() {
-                System.out.println("SESSION: " + getCheesrSession().getId());
-                getCheesrSession().invalidate();
-                System.out.println("AFTER CLEAR: " + getCheesrSession().getId());
+                //TODO Soon...
             }
         });
     }

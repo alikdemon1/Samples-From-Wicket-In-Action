@@ -12,7 +12,7 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "User.findById",
                 query = "select distinct u from User u where u.id = :id")})
-public class User implements Serializable{
+public class User implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -61,7 +61,6 @@ public class User implements Serializable{
         this.email = email;
     }
 
-
     @Override
     public String toString() {
         return "User{" +
@@ -71,4 +70,6 @@ public class User implements Serializable{
                 ", createdOn=" + createdAt +
                 '}';
     }
+
+
 }

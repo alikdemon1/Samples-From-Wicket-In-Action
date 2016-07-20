@@ -1,82 +1,64 @@
 package kz.alisher.example.wicket.projects.cheesr.pages;
 
 import kz.alisher.example.wicket.projects.BasePage;
-import kz.alisher.example.wicket.projects.cheesr.model.Cheese;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.list.PageableListView;
-import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-
-import java.io.Serializable;
+import kz.alisher.example.wicket.projects.cheesr.auth.SignOutPage;
+import kz.alisher.example.wicket.projects.cheesr.auth.UserPanel;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.panel.Panel;
 
 /**
  * Created by Alisher on 23.06.2016.
  */
+@AuthorizeInstantiation("ADMIN")
 public class Index extends BasePage {
+    private ShoppingCartPanel shoppingCart = new ShoppingCartPanel("cart", getCart(), true);
+    private Panel cheesesPanel = new CheesesPanel("main", getCheeses(), getCart(), shoppingCart);
+
+    private Panel recipesPanel = new RecipesPanel("main");
+
+    private Panel current = cheesesPanel;
+
+    private WebMarkupContainer menu = new WebMarkupContainer("menu");
 
     public Index() {
-        PageableListView cheeses = new PageableListView("cheeses", getCheeses(), 5) {
-
+        cheesesPanel.setOutputMarkupId(true);
+        recipesPanel.setOutputMarkupId(true);
+        menu.setOutputMarkupId(true);
+        add(menu);
+        menu.add(new AjaxLink("cheeseslink") {
             @Override
-            protected void populateItem(ListItem item) {
-                Cheese cheese = (Cheese) item.getModelObject();
-                item.add(new Label("name", cheese.getName()));
-                item.add(new Label("description", cheese.getDescription()));
-                item.add(new Label("price", "$" + cheese.getPrice()));
-
-                item.add(new Link("add", item.getModel()) {
-
-                    @Override
-                    public void onClick() {
-                        Cheese selected = (Cheese) getModelObject();
-                        getCart().getCheeses().add(selected);
-                    }
-                });
+            public void onClick(AjaxRequestTarget target) {
+                current.replaceWith(cheesesPanel);
+                current = cheesesPanel;
+                target.add(current);
+                target.add(menu);
             }
-        };
-
-        add(cheeses);
-        add(new PagingNavigator("navigator", cheeses));
-        add(new ListView("cart", new PropertyModel(this, "cart.cheeses")) {
 
             @Override
-            protected void populateItem(ListItem item) {
-                Cheese cheese = (Cheese) item.getModelObject();
-                item.add(new Label("name", cheese.getName()));
-                item.add(new Label("price", "$" + cheese.getPrice()));
+            public boolean isEnabled() {
+                return current != cheesesPanel;
+            }
+        });
+        menu.add(new AjaxLink("recipeslink") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                current.replaceWith(recipesPanel);
+                current = recipesPanel;
+                target.add(current);
+                target.add(menu);
+            }
 
-                item.add(new Link("remove", item.getModel()) {
-
-                    @Override
-                    public void onClick() {
-                        Cheese selected = (Cheese) getModelObject();
-                        getCart().getCheeses().remove(selected);
-                    }
-                });
+            @Override
+            public boolean isEnabled() {
+                return current != recipesPanel;
             }
         });
 
-        add(new Label("total", new Model() {
-            @Override
-            public Serializable getObject() {
-                return getCart().getTotal() + "$";
-            }
-        }));
-        add(new Link("checkout") {
-            @Override
-            public void onClick() {
-                setResponsePage(new Checkout());
-            }
-
-            @Override
-            public boolean isVisible() {
-                return !getCart().getCheeses().isEmpty();
-            }
-        });
-
+        add(current);
+        add(shoppingCart);
+        add(new UserPanel("userPanel", SignOutPage.class));
     }
 }
