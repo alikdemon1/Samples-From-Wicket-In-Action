@@ -1,6 +1,6 @@
 # Wicket examples from book "Wicket in action"
-Also has examples using Wicket+Spring+Hibernate
-All example work well
-Wicket version 7
+##Also have example using Wicket+Spring+Hibernate called Registration</br>
+##All examples work well</br>
+##Wicket version 7</br>
 
 
